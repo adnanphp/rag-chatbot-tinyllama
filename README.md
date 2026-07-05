@@ -5,6 +5,7 @@ colorFrom: blue
 colorTo: indigo
 sdk: gradio
 sdk_version: "4.8.0"
+python_version: "3.12"
 app_file: space_app.py
 pinned: false
 ---
@@ -13,7 +14,7 @@ pinned: false
 
 [![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-Space-yellow)](https://huggingface.co/spaces/adnanphp/rag-chatbot-tinyllama)
 [![GitHub](https://img.shields.io/badge/GitHub-Repo-blue)](https://github.com/adnanphp/rag-chatbot-tinyllama)
-[![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://python.org)
+[![Python](https://img.shields.io/badge/Python-3.12-blue)](https://python.org)
 
 ## 📋 Overview
 
