@@ -1,0 +1,15 @@
+Artificial Intelligence (AI) is the simulation of human intelligence processes by computer systems. These processes include learning, reasoning, and self-correction.
+
+Machine Learning (ML) is a subset of AI that focuses on the development of algorithms that can learn from and make predictions on data. It includes supervised learning, unsupervised learning, and reinforcement learning.
+
+Deep Learning (DL) is a subset of ML that uses neural networks with multiple layers to progressively extract higher-level features from raw input. It has been particularly successful in image recognition, speech recognition, and natural language processing.
+
+Natural Language Processing (NLP) is the branch of AI that deals with the interaction between computers and humans using natural language. Applications include sentiment analysis, machine translation, and chatbots.
+
+Computer Vision (CV) is the field of AI that enables computers to derive meaningful information from digital images, videos, and other visual inputs. Applications include image classification, object detection, and facial recognition.
+
+Reinforcement Learning (RL) is a type of ML where an agent learns to make decisions by performing actions in an environment to achieve maximum cumulative reward. It has been used in robotics, gaming, and autonomous driving.
+
+Transfer Learning is a technique where knowledge gained from one task is applied to a different but related task. It allows models to be trained with less data and computational resources.
+
+Generative AI refers to AI systems that can create new content, such as text, images, audio, and video. Examples include GPT, DALL-E, and Stable Diffusion.
