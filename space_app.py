@@ -1,11 +1,11 @@
 """
-Gradio interface for RAG Chatbot on Hugging Face Spaces
+Gradio interface for RAG Chatbot - Compatible with Gradio 6.x
+Supports PDF and TXT files
 """
 
 import gradio as gr
-import requests
-import json
 import os
+from pypdf import PdfReader
 
 # Simple RAG without local LLM
 class SimpleRAG:
@@ -36,7 +36,6 @@ class SimpleRAG:
         if not relevant:
             return "I don't have information about that topic."
         
-        # Get top 2 relevant sentences
         context = []
         for idx in relevant[:2]:
             context.append(self.documents[idx])
@@ -46,91 +45,65 @@ class SimpleRAG:
 # Initialize RAG
 rag = SimpleRAG()
 
-# Sample knowledge
-knowledge = """
-Artificial Intelligence is the simulation of human intelligence processes by machines.
-Machine Learning enables systems to learn from data without explicit programming.
-Deep Learning uses neural networks with multiple layers for pattern recognition.
-Natural Language Processing helps computers understand human language.
-Computer Vision allows machines to interpret visual information.
-Reinforcement Learning trains agents through rewards and punishments.
-Transfer Learning applies knowledge from one task to another.
-"""
-rag.add_document(knowledge)
+# Load documents from folder
+documents_folder = "documents"
 
-def chat_with_rag(message, history):
-    """Chat function for Gradio"""
+if os.path.exists(documents_folder):
+    print(f"📁 Loading documents from {documents_folder}...")
+    
+    for filename in os.listdir(documents_folder):
+        filepath = os.path.join(documents_folder, filename)
+        
+        try:
+            # Handle PDF files
+            if filename.lower().endswith('.pdf'):
+                print(f"📄 Reading PDF: {filename}")
+                reader = PdfReader(filepath)
+                text = ""
+                for page in reader.pages:
+                    text += page.extract_text() + " "
+                rag.add_document(text)
+                print(f"✅ Loaded PDF: {filename} ({len(text)} characters)")
+            
+            # Handle TXT files
+            elif filename.lower().endswith('.txt'):
+                print(f"📄 Reading TXT: {filename}")
+                with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+                    text = f.read()
+                rag.add_document(text)
+                print(f"✅ Loaded TXT: {filename} ({len(text)} characters)")
+            
+            else:
+                print(f"⚠️ Skipping unsupported file: {filename}")
+                
+        except Exception as e:
+            print(f"❌ Error loading {filename}: {e}")
+
+else:
+    print("📁 No documents folder found. Please create one and add your files.")
+
+print(f"📚 Total documents loaded: {len(rag.documents)}")
+
+# Gradio 6.x ChatInterface
+def chat_response(message, history):
     if not message:
         return "Please ask a question."
     
     response = rag.ask(message)
     return response
 
-# Create Gradio interface
-with gr.Blocks(title="RAG Chatbot", theme=gr.themes.Soft()) as demo:
-    gr.Markdown("""
-    # 🤖 RAG Chatbot with TinyLlama
-    
-    Ask questions about AI, Machine Learning, Deep Learning, NLP, Computer Vision, and more!
-    
-    *Powered by TinyLlama and RAG (Retrieval-Augmented Generation)*
-    """)
-    
-    with gr.Row():
-        with gr.Column(scale=2):
-            chatbot = gr.Chatbot(
-                height=400,
-                label="Chat History"
-            )
-            msg = gr.Textbox(
-                label="Ask a question",
-                placeholder="Type your question here...",
-                lines=2
-            )
-            with gr.Row():
-                submit_btn = gr.Button("Send", variant="primary")
-                clear_btn = gr.Button("Clear")
-    
-    with gr.Row():
-        with gr.Column():
-            gr.Examples(
-                examples=[
-                    "What is Artificial Intelligence?",
-                    "What is Machine Learning?",
-                    "What is Deep Learning?",
-                    "What is Natural Language Processing?",
-                    "What is Computer Vision?",
-                    "What is Reinforcement Learning?"
-                ],
-                inputs=msg
-            )
-    
-    def respond(message, chat_history):
-        if not message:
-            return "", chat_history
-        
-        bot_response = chat_with_rag(message, chat_history)
-        chat_history.append((message, bot_response))
-        return "", chat_history
-    
-    submit_btn.click(
-        respond,
-        inputs=[msg, chatbot],
-        outputs=[msg, chatbot]
-    )
-    
-    msg.submit(
-        respond,
-        inputs=[msg, chatbot],
-        outputs=[msg, chatbot]
-    )
-    
-    clear_btn.click(
-        lambda: None,
-        inputs=None,
-        outputs=chatbot,
-        js="() => { document.querySelector('#chatbot').innerHTML = ''; }"
-    )
+demo = gr.ChatInterface(
+    fn=chat_response,
+    title="🤖 RAG Chatbot with TinyLlama",
+    description="Ask questions about your documents! Supports PDF and TXT files.",
+    examples=[
+        "What is this document about?",
+        "Explain the main topic.",
+        "What are the key points?",
+        "Tell me about machine learning.",
+        "What does the author say about AI?"
+    ]
+)
 
 if __name__ == "__main__":
     demo.launch()

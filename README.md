@@ -4,8 +4,8 @@ emoji: 🤖
 colorFrom: blue
 colorTo: indigo
 sdk: gradio
-sdk_version: "4.8.0"
-python_version: "3.12"
+sdk_version: "6.19.0"
+python_version: "3.10"
 app_file: space_app.py
 pinned: false
 ---
