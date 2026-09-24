@@ -7,6 +7,7 @@ colorTo: indigo
 sdk: gradio
 sdk_version: "6.19.0"
 python_version: "3.10"
+app_file: space_app.py
 pinned: false
 -------------
 
@@ -16,116 +17,110 @@ pinned: false
 [![GitHub](https://img.shields.io/badge/GitHub-Repo-blue)](https://github.com/adnanphp/rag-chatbot-tinyllama)
 [![Python](https://img.shields.io/badge/Python-3.10-blue)](https://www.python.org/)
 
-> **A lightweight Retrieval-Augmented Generation (RAG) chatbot that combines semantic document retrieval with TinyLlama to answer questions from a custom knowledge base.**
+> **A lightweight Retrieval-Augmented Generation (RAG) chatbot that combines semantic retrieval with TinyLlama to answer questions from a custom knowledge base.**
 
-[🚀 **Live Demo on Hugging Face Spaces**](https://huggingface.co/spaces/adnanphp/rag-chatbot-tinyllama)
+## 🚀 Live Demo
+
+**Hugging Face Space:**
+https://huggingface.co/spaces/adnanphp/rag-chatbot-tinyllama
+
+**GitHub Repository:**
+https://github.com/adnanphp/rag-chatbot-tinyllama
 
 ---
 
 ## 📋 Overview
 
-This project implements an end-to-end **Retrieval-Augmented Generation (RAG)** system using **TinyLlama** as the language model and **FAISS** for semantic retrieval.
+This project implements an end-to-end **Retrieval-Augmented Generation (RAG)** chatbot using **TinyLlama** for text generation and **FAISS** for semantic vector search.
 
-Instead of relying only on the language model's pretrained knowledge, the chatbot first retrieves relevant information from a document collection and then provides that context to TinyLlama to generate an answer.
+The system retrieves relevant information from a collection of documents and provides that context to TinyLlama before generating an answer.
 
 ### 🔄 RAG Workflow
 
 ```text
-                    ┌──────────────────┐
-                    │     User Query   │
-                    └────────┬─────────┘
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │ Query Processing │
-                    └────────┬─────────┘
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │  FAISS Search    │
-                    │ Semantic Retrieval│
-                    └────────┬─────────┘
-                             │
-                       Relevant Context
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │    TinyLlama     │
-                    │  Text Generation │
-                    └────────┬─────────┘
-                             │
-                             ▼
-                    ┌──────────────────┐
-                    │     Answer       │
-                    └──────────────────┘
+User Question
+      │
+      ▼
+Query Processing
+      │
+      ▼
+FAISS Semantic Search
+      │
+      ▼
+Relevant Documents
+      │
+      ▼
+Retrieved Context
+      │
+      ▼
+TinyLlama
+      │
+      ▼
+Generated Answer
 ```
 
 ---
 
 ## ✨ Features
 
-| Feature                    | Description                                        |
-| -------------------------- | -------------------------------------------------- |
-| 📄 **Document Ingestion**  | Add documents to the chatbot's knowledge base      |
-| 🔍 **Semantic Retrieval**  | Retrieve relevant information using vector search  |
-| 🧠 **RAG Generation**      | Ground TinyLlama responses in retrieved context    |
-| 🤖 **TinyLlama**           | Lightweight local language model for generation    |
-| ⚡ **FAISS**                | Efficient vector similarity search                 |
-| 🌐 **FastAPI**             | REST API for programmatic access                   |
-| 🎨 **Gradio**              | Interactive web-based chatbot interface            |
-| 🤗 **Hugging Face Spaces** | Public cloud deployment for the Gradio application |
+* 📄 **Document Ingestion** — Add documents to the knowledge base
+* 🔍 **Semantic Search** — Retrieve relevant information using vector search
+* 🤖 **TinyLlama Generation** — Generate answers using a lightweight LLM
+* 🧠 **RAG Pipeline** — Combine retrieval with language generation
+* ⚡ **FAISS Vector Search** — Efficient similarity search
+* 🌐 **FastAPI REST API** — Access the chatbot programmatically
+* 🎨 **Gradio Web UI** — Interactive chatbot interface
+* 🤗 **Hugging Face Deployment** — Publicly accessible Gradio application
 
 ---
 
-## 🧠 RAG Architecture
-
-The system follows a simple RAG pipeline:
+## 🧠 Architecture
 
 ```text
-Documents
-    │
-    ▼
-Document Ingestion
-    │
-    ▼
-Text Processing / Embeddings
-    │
-    ▼
-FAISS Vector Index
-    │
-    │
-User Question
-    │
-    ▼
-Semantic Search
-    │
-    ▼
-Relevant Documents
-    │
-    ▼
-Prompt + Retrieved Context
-    │
-    ▼
-TinyLlama
-    │
-    ▼
-Generated Answer
+                  ┌─────────────────┐
+                  │  User Question  │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Query Processing│
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │  FAISS Search   │
+                  │ Semantic Search │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ Relevant Context│
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │    TinyLlama    │
+                  │  Text Generation│
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │     Answer      │
+                  └─────────────────┘
 ```
-
-This architecture separates **information retrieval** from **language generation**, making it possible to update the knowledge base without retraining the language model.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology              | Role                                |
-| ----------------------- | ----------------------------------- |
-| **Python**              | Application development             |
-| **TinyLlama**           | Lightweight LLM for text generation |
-| **FAISS**               | Vector similarity search            |
-| **FastAPI**             | REST API                            |
-| **Gradio**              | Interactive chatbot UI              |
-| **Hugging Face Spaces** | Application deployment              |
+| Technology              | Purpose                  |
+| ----------------------- | ------------------------ |
+| **Python**              | Application development  |
+| **TinyLlama**           | LLM for text generation  |
+| **FAISS**               | Vector similarity search |
+| **FastAPI**             | REST API                 |
+| **Gradio**              | Web interface            |
+| **Hugging Face Spaces** | Application deployment   |
 
 ---
 
@@ -158,29 +153,11 @@ http://localhost:8000
 
 ### 4. Run the Gradio Interface
 
-Alternatively:
-
 ```bash
 python space_app.py
 ```
 
-The Gradio application will provide an interactive chatbot interface.
-
----
-
-## 🌐 Deployment
-
-The project is deployed using **Hugging Face Spaces** with Gradio.
-
-### 🤗 Live Demo
-
-https://huggingface.co/spaces/adnanphp/rag-chatbot-tinyllama
-
-### 💻 Local API
-
-```text
-http://localhost:8000
-```
+The Gradio application will start locally.
 
 ---
 
@@ -188,13 +165,13 @@ http://localhost:8000
 
 The FastAPI application provides the following endpoints:
 
-| Method | Endpoint        | Description                           |
-| ------ | --------------- | ------------------------------------- |
-| `GET`  | `/`             | Root endpoint                         |
-| `GET`  | `/health`       | API health check                      |
-| `POST` | `/ask`          | Ask the RAG chatbot a question        |
-| `POST` | `/add_document` | Add information to the knowledge base |
-| `GET`  | `/documents`    | List available documents              |
+| Method | Endpoint        | Description    |
+| ------ | --------------- | -------------- |
+| `GET`  | `/`             | Root endpoint  |
+| `GET`  | `/health`       | Health check   |
+| `POST` | `/ask`          | Ask a question |
+| `POST` | `/add_document` | Add a document |
+| `GET`  | `/documents`    | List documents |
 
 ### Example Request
 
@@ -216,73 +193,137 @@ rag-chatbot-tinyllama/
 │
 ├── rag_optimized.py # RAG pipeline
 ├── app_rag.py       # FastAPI application
-├── space_app.py     # Gradio / Hugging Face application
+├── space_app.py     # Gradio application
 │
-├── requirements.txt  # Python dependencies
-├── README.md         # Project documentation
-└── LICENSE            # MIT License
+├── requirements.txt # Python dependencies
+├── README.md        # Project documentation
+└── LICENSE          # MIT License
 ```
 
 ---
 
-## 🔑 Key Concepts Demonstrated
+## 🔍 How RAG Works
 
-This project demonstrates practical experience with:
+The chatbot follows a retrieval-then-generation approach.
 
-* **Retrieval-Augmented Generation (RAG)**
-* **Large Language Models (LLMs)**
-* **Semantic search**
-* **Vector databases / vector indexing**
-* **FAISS similarity search**
-* **Prompt-based context injection**
-* **FastAPI REST services**
-* **Gradio interfaces**
-* **LLM application deployment**
-* **Hugging Face Spaces**
+### Step 1 — Document Ingestion
+
+Documents are added to the knowledge base.
+
+### Step 2 — Semantic Retrieval
+
+FAISS searches the vector index to identify information relevant to the user's question.
+
+### Step 3 — Context Construction
+
+The retrieved information is provided as context to the language model.
+
+### Step 4 — Answer Generation
+
+TinyLlama uses the retrieved context to generate the final response.
+
+```text
+Documents
+    │
+    ▼
+Vector Index
+    │
+    │
+Question ───────► Semantic Search
+                         │
+                         ▼
+                  Relevant Context
+                         │
+                         ▼
+                     TinyLlama
+                         │
+                         ▼
+                       Answer
+```
 
 ---
 
-## 🎯 Why This Project?
+## 🎯 Key Concepts Demonstrated
 
-Traditional LLM applications generate responses primarily from information encoded during model training.
+This project demonstrates practical experience with:
 
-A RAG system introduces an external knowledge source:
+* Retrieval-Augmented Generation (RAG)
+* Large Language Models (LLMs)
+* Semantic search
+* Vector similarity search
+* FAISS
+* Prompt-based context retrieval
+* FastAPI
+* REST API development
+* Gradio
+* Hugging Face Spaces
+* LLM application deployment
+
+---
+
+## 💡 Why RAG?
+
+A traditional LLM generates responses primarily from knowledge learned during model training.
+
+RAG introduces an external knowledge source:
 
 ```text
 Traditional LLM
 
-Question ───────────────► LLM ───────────────► Answer
+Question ─────► LLM ─────► Answer
 
 
 RAG
 
 Question
-   │
-   ▼
-Retriever ───► Relevant Context
-                     │
-                     ▼
-                  TinyLlama
-                     │
-                     ▼
-                   Answer
+    │
+    ▼
+Retriever
+    │
+    ▼
+Relevant Context
+    │
+    ▼
+TinyLlama
+    │
+    ▼
+Answer
 ```
 
-This approach allows the chatbot to work with **custom documents and domain-specific information** without fine-tuning the language model.
+This allows the chatbot to answer questions using **custom documents and domain-specific information** without retraining the language model.
+
+---
+
+## 🌐 Deployment
+
+The Gradio application is deployed on **Hugging Face Spaces**.
+
+### Live Application
+
+https://huggingface.co/spaces/adnanphp/rag-chatbot-tinyllama
+
+### Local API
+
+```text
+http://localhost:8000
+```
 
 ---
 
 ## 🔮 Future Improvements
 
-Potential extensions include:
+Potential improvements include:
 
+* [ ] PDF document ingestion
+* [ ] DOCX document ingestion
+* [ ] Better document chunking
+* [ ] Metadata filtering
 * [ ] Conversation memory
-* [ ] PDF and DOCX document ingestion
-* [ ] Document chunking and metadata filtering
-* [ ] Retrieval evaluation with Precision@K and Recall@K
-* [ ] Reranking with a cross-encoder
-* [ ] Streaming LLM responses
-* [ ] Authentication for the API
+* [ ] Retrieval evaluation
+* [ ] Precision@K and Recall@K evaluation
+* [ ] Cross-encoder reranking
+* [ ] Streaming responses
+* [ ] API authentication
 * [ ] Docker deployment
 * [ ] Kubernetes deployment
 * [ ] MLflow experiment tracking
@@ -300,19 +341,21 @@ This project is licensed under the **MIT License**.
 
 **Adnan**
 
-* GitHub: [@adnanphp](https://github.com/adnanphp)
-* Hugging Face: [@adnanphp](https://huggingface.co/adnanphp)
+GitHub:
+https://github.com/adnanphp
+
+Hugging Face:
+https://huggingface.co/adnanphp
 
 ---
 
-## 🔗 Links
+## 🔗 Project Links
 
-**GitHub Repository:**
-https://github.com/adnanphp/rag-chatbot-tinyllama
-
-**Live Hugging Face Space:**
-https://huggingface.co/spaces/adnanphp/rag-chatbot-tinyllama
+| Resource              | Link                                                         |
+| --------------------- | ------------------------------------------------------------ |
+| 🤗 Hugging Face Space | https://huggingface.co/spaces/adnanphp/rag-chatbot-tinyllama |
+| 💻 GitHub Repository  | https://github.com/adnanphp/rag-chatbot-tinyllama            |
 
 ---
 
-> 💡 **Portfolio Focus:** This project demonstrates an end-to-end LLM application combining **RAG, semantic retrieval, vector search, API development, and cloud deployment**.
+> **Portfolio Project:** An end-to-end LLM application demonstrating **RAG, semantic retrieval, vector search, TinyLlama, FastAPI, Gradio, and Hugging Face deployment**.
