@@ -7,7 +7,6 @@ colorTo: indigo
 sdk: gradio
 sdk_version: "6.19.0"
 python_version: "3.10"
-app_file: space_app.py
 pinned: false
 -------------
 
